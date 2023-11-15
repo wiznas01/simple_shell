@@ -17,7 +17,7 @@
 int get_max_argument(void);
 int execute_command(char *command, char *envp[]);
 void execute_cmd(char *command, char **envp);
-void path_execute(char *command, char **args);
+void path_execute(char *command, char **args, char **envp);
 void exit_shell(void);
 void env_shell(char **envp);
 char *own_getline(char *buffer, size_t size);
