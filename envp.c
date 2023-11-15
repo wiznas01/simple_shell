@@ -15,7 +15,7 @@ void execute_cmd(char *command, char **envp)
 	command[strcspn(command, "\n")] = '\0';
 	args[arg_count] = strtok(command, " ");
 
-	while (args[arg_count] != NULL && arg_count < MAX_ARGUMENTS  - 1)
+	while (arg_count < MAX_ARGUMENTS  - 1 && args[arg_count] != NULL)
 	{
 		arg_count++;
 		args[arg_count] = strtok(NULL, " ");
