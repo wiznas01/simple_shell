@@ -1,25 +1,6 @@
 #include "shell.h"
 
 /**
- * main - Entry point for the variable replacement example.
- * Return: Always returns 0 on successful execution.
- */
-int main(void)
-{
-	char command[COMMAND_SIZE];
-	char *result;
-
-	own_getline(command, COMMAND_SIZE);
-
-	result = replace_variables(command, 0);
-
-	printf("Original command: %s\n", command);
-	printf("Modified command: %s\n", result);
-	free(result);
-	return (0);
-}
-
-/**
  * replace_variables - Replaces special variables in the command string.
  * @command: The input command string.
  * @last_status: The exit status of the last command.

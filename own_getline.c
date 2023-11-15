@@ -38,27 +38,3 @@ char *own_getline(char *buffer, size_t size)
 	}
 	return (buffer);
 }
-
-/**
- * main - Entry point for the custom shell program
- * Return: Always returns 0 on successful execution
- */
-int main(void)
-{
-	char command[MAX_INPUT_SIZE];
-	int exit_status;
-
-	while (1)
-	{
-		own_getline(command, COMMAND_SIZE, stdin);
-		if (strcmp(command, "exit\n") == 0 || strcmp(command, "quit\n") == 0)
-		{
-			printf("Exiting shell...\n");
-			break;
-		}
-		exit_status = execute_command(command, envp);
-		if (exit_status != 0)
-			printf("Command exited with status %d\n", exit_status);
-	}
-	return (0);
-}

@@ -49,33 +49,3 @@ void execute_cmd(char *command, char **envp)
 		fprintf(stderr, "%s: command not found\n", args[0]);
 	}
 }
-
-/**
- * main - main function
- *
- * Return: returns 0 on successful execution
- */
-int main(void)
-{
-	char input[MAX_INPUT_SIZE];
-
-	while (1)
-	{
-		printf("($) ");
-		if (fgets(input, sizeof(input), stdin) == NULL)
-		{
-			if (feof(stdin))
-			{
-				printf("\n");
-				exit(EXIT_SUCCESS);
-			}
-			else
-			{
-				perror("Error reading input");
-				exit(EXIT_FAILURE);
-			}
-		}
-		execute_cmd(input, NULL);
-	}
-	return (0);
-}

@@ -38,10 +38,9 @@ void split_command(char *command, char *args[])
  * @command: Input command to execute.
  * Return: 0 on success, -1 on failure.
  */
-int execute_command(char *command, *envp)
+int execute_command(char *command, char *envp[])
 {
 	char *args[MAX_ARGUMENTS];
-	int arg_count = 0;
 
 	split_command(command, args);
 	if (args[0] != NULL)
@@ -86,7 +85,7 @@ int main(int argc, char *argv[], char *envp[])
 	{
 		printf("($) ");
 
-		if (own_getline(command, sizeof(command), file) == NULL)
+		if (own_getline(command, sizeof(command)) == NULL)
 		{
 			if (argc == 2)
 				break;

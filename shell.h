@@ -15,7 +15,7 @@
 #define MAX_PATH_LENGTH 256
 
 int get_max_argument(void);
-int execute_command(char *command, char *envp);
+int execute_command(char *command, char *envp[]);
 void execute_cmd(char *command, char **envp);
 void path_execute(char *command, char **args);
 void exit_shell(void);
@@ -27,7 +27,7 @@ void split_command(char *command, char *args[]);
 int execute_cd(char *dir, char **envp);
 int tokenize_commands(char *input, char *commands[]);
 int execute_logical(char *command, char **envp);
-int execute_and_or(char **commands, int count, **envp);
+int execute_and_or(char **commands, int count, char **envp);
 int execute_path_command(char *command, char **envp);
 int execute_alias(char *alias_command, char *aliases[], int *alias_count);
 void print_aliases(char *aliases[], int alias_count);

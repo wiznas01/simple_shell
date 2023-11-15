@@ -9,6 +9,8 @@ int execute_path_command(char *command, char **envp)
 	char *args[MAX_ARGUMENTS];
 	int arg_count = 0;
 
+	(void)envp;
+
 	command[strcspn(command, "\n")] = '\0';
 	args[arg_count] = strtok(command, " ");
 
@@ -38,7 +40,7 @@ void path_execute(char *command, char **args)
 	char *path_copy;
 	int i;
 	int arg_count = 0;
-	char *next;
+	char *next = NULL;
 
 	path_copy = strdup(path);
 	if (path_copy == NULL)
