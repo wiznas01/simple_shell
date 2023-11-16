@@ -76,6 +76,7 @@ int main(int argc, char *argv[], char *envp[])
 	char *modified_command;
 	char *args[MAX_ARGUMENTS];
 	FILE *file;
+	int status;
 
 	if (argc == 2)
 	{
@@ -109,8 +110,19 @@ int main(int argc, char *argv[], char *envp[])
 				else
 					fprintf(stderr, "cd: missing argument\n");
 			}
-			else if (strcmp(args[0], "exit") == 0 || strcmp(args[0], "quit") == 0)
-				exit_shell();
+			else if (strcmp(args[0], "exit") == 0)
+			{
+				if (args[1] != NULL)
+				{
+					status = atoi(args[1]);
+					free(modified_command);
+					printf("Exiting shell with status %d\n", status);
+					fclose(file);
+					exit(status);
+				}
+				else
+					exit_shell();
+			}
 			else if (strcmp(args[0], "alias") == 0)
 				execute_alias(args[1], aliases, &alias_count);
 			else if (strcmp(args[0], "env") == 0)
