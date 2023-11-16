@@ -1,4 +1,8 @@
 #include "shell.h"
+
+char *aliases[MAX_ALIAS_COUNT];
+int alias_count = 0;
+
 /**
  * get_max_argument - Determines the maximum number of arguments.
  * Return: Maximum number of arguments.
@@ -70,6 +74,7 @@ int main(int argc, char *argv[], char *envp[])
 {
 	char command[COMMAND_SIZE];
 	char *modified_command;
+	char *args[MAX_ARGUMENTS];
 	FILE *file;
 
 	if (argc == 2)
@@ -89,13 +94,30 @@ int main(int argc, char *argv[], char *envp[])
 		{
 			if (argc == 2)
 				break;
-			else
-				continue;
+			continue;
 		}
 		command[strcspn(command, "\n")] = '\0';
 
 		modified_command = replace_variables(command, 0);
-		execute_command(modified_command, envp);
+		split_command(modified_command, args);
+		if (args[0] != NULL)
+		{
+			if (strcmp(args[0], "cd") == 0)
+			{
+				if (args[1] != NULL)
+					execute_cd(args[1], envp);
+				else
+					fprintf(stderr, "cd: missing argument\n");
+			}
+			else if (strcmp(args[0], "exit") == 0 || strcmp(args[0], "quit") == 0)
+				exit_shell();
+			else if (strcmp(args[0], "alias") == 0)
+				execute_alias(args[1], aliases, &alias_count);
+			else if (strcmp(args[0], "env") == 0)
+				env_shell(envp);
+			else
+				execute_command(modified_command, envp);
+		}
 		free(modified_command);
 	}
 	if (argc == 2)

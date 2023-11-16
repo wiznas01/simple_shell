@@ -14,6 +14,9 @@
 #define COMMAND_SIZE 256
 #define MAX_PATH_LENGTH 256
 
+extern char *aliases[MAX_ALIAS_COUNT];
+extern int alias_count;
+
 int get_max_argument(void);
 int execute_command(char *command, char *envp[]);
 void execute_cmd(char *command, char **envp);

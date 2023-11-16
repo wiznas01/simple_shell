@@ -8,12 +8,12 @@
  */
 int execute_cd(char *dir, char **envp)
 {
-	char *new_dir = dir ? dir : getenv(dir ? "OLDPWD" : "HOME");
+	char *new_dir = dir ? dir : getenv("HOME");
 	char current_dir[PATH_MAX];
 
 	(void)envp;
 
-	if (!new_dir)
+	if (new_dir == NULL)
 	{
 		fprintf(stderr, "cd: %s not set\n", dir ? "OLDPWD" : "No home directory");
 		return (-1);

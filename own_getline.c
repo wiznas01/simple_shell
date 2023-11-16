@@ -1,4 +1,5 @@
 #include "shell.h"
+#include <stdio.h>
 /**
  * own_getline - Custom getline function to read input from user.
  * @buffer: Pointer to the buffer where the line will be stored.
