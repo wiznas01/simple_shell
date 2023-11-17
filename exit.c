@@ -1,9 +1,11 @@
 #include "shell.h"
 /**
  * exit_shell - exits the shell
+ * @status: exit status
  */
 
-void exit_shell(void)
+void exit_shell(int status)
 {
-	exit(EXIT_SUCCESS);
+	printf("Exiting shell with status %d\n", status);
+	exit(status);
 }

@@ -14,14 +14,15 @@
 #define COMMAND_SIZE 256
 #define MAX_PATH_LENGTH 256
 
-extern char *aliases[MAX_ALIAS_COUNT];
-extern int alias_count;
+char *aliases[MAX_ALIAS_COUNT];
+int alias_count;
 
 int get_max_argument(void);
 int execute_command(char *command, char *envp[]);
 void execute_cmd(char *command, char **envp);
 void path_execute(char *command, char **args, char **envp);
-void exit_shell(void);
+void exit_shell(int status);
+void exit_command(char *arg, int *status, char *modified_command, FILE *file);
 void env_shell(char **envp);
 char *own_getline(char *buffer, size_t size);
 int execute_setenv(char *var, char *value);

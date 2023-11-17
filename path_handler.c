@@ -39,7 +39,6 @@ void path_execute(char *command, char **args, char **envp)
 	char *path_copy;
 	int i;
 	int arg_count = 0;
-	char *next = NULL;
 
 	path_copy = strdup(path);
 	if (path_copy == NULL)
@@ -48,30 +47,21 @@ void path_execute(char *command, char **args, char **envp)
 		return;
 	}
 
-	token = path_copy;
+	token = strtok(path_copy, ":");
 	while (*token != '\0' && arg_count < MAX_ARGUMENTS - 1)
 	{
-		next = strchr(token, ':');
-		if (next == NULL)
-			path_args[arg_count++] = token;
-		else
-		{
-			*next = '\0';
-			path_args[arg_count++] = token;
-			token = next + 1;
-		}
+		path_args[arg_count++] = token;
+		token = strtok(NULL, ":");
 	}
 	path_args[arg_count] = NULL;
 	free(path_copy);
 
-	if (args == NULL)
+	if (args == NULL || args[0] == NULL)
 	{
-		perror("Invalid arguments");
+		fprintf(stderr, "Invalid arguments\n");
 		return;
 	}
 
-	if (access(command, F_OK | X_OK) == 0 && execve(command, args, envp) != -1)
-		return;
 	for (i = 0; path_args[i] != NULL; i++)
 	{
 		snprintf(cmd, sizeof(cmd), "%s/%s", path_args[i], command);

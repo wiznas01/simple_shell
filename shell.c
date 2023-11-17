@@ -1,8 +1,5 @@
 #include "shell.h"
 
-char *aliases[MAX_ALIAS_COUNT];
-int alias_count = 0;
-
 /**
  * get_max_argument - Determines the maximum number of arguments.
  * Return: Maximum number of arguments.
@@ -52,7 +49,10 @@ int execute_command(char *command, char *envp[])
 		if (access(args[0], X_OK) == 0)
 		{
 			if (execve(args[0], args, envp) == -1)
+			{
 				perror("Error executing command");
+				return (-1);
+			}
 		}
 		else
 		{
@@ -108,20 +108,29 @@ int main(int argc, char *argv[], char *envp[])
 				if (args[1] != NULL)
 					execute_cd(args[1], envp);
 				else
-					fprintf(stderr, "cd: missing argument\n");
+					execute_cd(NULL, envp);
 			}
 			else if (strcmp(args[0], "exit") == 0)
 			{
 				if (args[1] != NULL)
 				{
 					status = atoi(args[1]);
-					free(modified_command);
 					printf("Exiting shell with status %d\n", status);
 					fclose(file);
-					exit(status);
+					exit_shell(status);
 				}
 				else
-					exit_shell();
+					exit_shell(0);
+			}
+			else if (strcmp(args[0], "setenv") == 0)
+			{
+				if (execute_setenv(args[1], args[2]) == -1)
+					fprintf(stderr, "Error setting environment variable\n");
+			}
+			else if (strcmp(args[0], "unsetenv") == 0)
+			{
+				if (execute_unsetenv(args[1]) == -1)
+					fprintf(stderr, "Error unsetting environment variable\n");
 			}
 			else if (strcmp(args[0], "alias") == 0)
 				execute_alias(args[1], aliases, &alias_count);

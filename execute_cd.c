@@ -8,16 +8,32 @@
  */
 int execute_cd(char *dir, char **envp)
 {
-	char *new_dir = dir ? dir : getenv("HOME");
+	char *new_dir;
 	char current_dir[PATH_MAX];
 
 	(void)envp;
 
-	if (new_dir == NULL)
+	if (dir == NULL || strcmp(dir, "-") == 0)
 	{
-		fprintf(stderr, "cd: %s not set\n", dir ? "OLDPWD" : "No home directory");
-		return (-1);
+		new_dir = getenv("OLDPWD");
+		if (new_dir == NULL)
+		{
+			fprintf(stderr, "cd: OLDPWD not set\n");
+			return (-1);
+		}
 	}
+	else if (strcmp(dir, "~") == 0)
+	{
+		new_dir = getenv("HOME");
+		if (new_dir == NULL)
+		{
+			fprintf(stderr, "cd: HOME not set\n");
+			return (-1);
+		}
+	}
+	else
+		new_dir = dir;
+
 	if (!getcwd(current_dir, PATH_MAX) || chdir(new_dir) == -1)
 	{
 		perror("chdir");
